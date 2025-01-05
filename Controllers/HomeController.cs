@@ -1,24 +1,15 @@
 using System.Diagnostics;
+using FilmFlicks.DAL;
 using Microsoft.AspNetCore.Mvc;
 using FilmFlicks.Models;
 
 namespace FilmFlicks.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ApplicationDbContext context) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
     {
         return View();
     }

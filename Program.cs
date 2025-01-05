@@ -1,10 +1,18 @@
+using DotNetEnv;
+using FilmFlicks.DAL;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 namespace FilmFlicks;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        Env.Load();
+        
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddDbContext<ApplicationDbContext>();
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
