@@ -1,9 +1,19 @@
+using FilmFlicks.DAL.Configurations;
+using FilmFlicks.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmFlicks.DAL;
 
 public sealed class ApplicationDbContext : DbContext
 {
+    
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<Cinema> Cinemas { get; set; }
+    public DbSet<Film> Films { get; set; }
+    public DbSet<FilmCinema> FilmCinemas { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<User> Users { get; set; }
+    
     
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -17,6 +27,16 @@ public sealed class ApplicationDbContext : DbContext
         
         var connectionString = GetConnectionString();
         optionsBuilder.UseNpgsql(connectionString);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new FilmCinemaConfiguration());
+        modelBuilder.ApplyConfiguration(new CinemaConfiguration());
+        modelBuilder.ApplyConfiguration(new FilmConfiguration());
+        modelBuilder.ApplyConfiguration(new TicketConfiguration());
     }
 
 
