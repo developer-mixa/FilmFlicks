@@ -9,7 +9,7 @@ public sealed class ApplicationDbContext : DbContext
     
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Cinema> Cinemas { get; set; }
-    public DbSet<Film> Films { get; set; }
+    public DbSet<Film?> Films { get; set; }
     public DbSet<FilmCinema> FilmCinemas { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<User> Users { get; set; }
