@@ -19,8 +19,10 @@ public class Film
     [Column("rating"), Required]
     [Range(0f, 10f)]
     public float Rating { get; set; }
+
+    public List<Cinema> Cinemas { get; } = [];
     
-    public ICollection<Cinema> Cinemas { get; set; }
+    public List<FilmCinema> FilmCinemas { get; } = [];
 
     public override string ToString() => $"name={Name} rating={Rating}";
 }

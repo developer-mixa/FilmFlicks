@@ -20,6 +20,7 @@ public class Program
         // Dependencies
         builder.Services.AddScoped<IFilmRepository, DbFilmRepository>();
         builder.Services.AddScoped<GetFilmsUseCase>();
+        builder.Services.AddScoped<GetFilmWithCinemaUseCase>();
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();

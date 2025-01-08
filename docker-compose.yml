@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD: "${PG_PASSWORD}"
     container_name: postgres-films
     volumes:
-      - ./films_postgresql_data:/var/lib/postgresql/data
+      - films_postgresql_data:/var/lib/postgresql/data/
     networks:
       - films_pg_net
 

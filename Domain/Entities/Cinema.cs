@@ -15,8 +15,9 @@ public class Cinema
     
     [Column("address"), Required]
     public Address Address { get; set; }
-    
-    public ICollection<Film> Films { get; set; }
-    
+
+    public List<Film> Films { get; } = [];
+    public List<FilmCinema> FilmCinemas { get; } = [];
+
     public override string ToString() => $"name={Name} address={Address}";
 }
