@@ -10,7 +10,7 @@ public interface IBaseRepository<T, B>
 
     Task<T?> Get(B id);
 
-    Task<List<Film?>> Select();
+    Task<List<T>> Select();
 
     void Delete(T entity);
 }
