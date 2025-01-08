@@ -9,7 +9,7 @@ public sealed class ApplicationDbContext : DbContext
     
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Cinema> Cinemas { get; set; }
-    public DbSet<Film?> Films { get; set; }
+    public DbSet<Film> Films { get; set; }
     public DbSet<FilmCinema> FilmCinemas { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<User> Users { get; set; }
@@ -23,7 +23,6 @@ public sealed class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.LogTo(Console.WriteLine);
         
         var connectionString = GetConnectionString();
         optionsBuilder.UseNpgsql(connectionString);
@@ -32,10 +31,8 @@ public sealed class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        
         modelBuilder.ApplyConfiguration(new FilmCinemaConfiguration());
-        modelBuilder.ApplyConfiguration(new CinemaConfiguration());
-        modelBuilder.ApplyConfiguration(new FilmConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
     }
 

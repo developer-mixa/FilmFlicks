@@ -1,10 +1,11 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FilmFlicks.DAL.Repositories.Core;
 
 public class CrudRepository<T, TB>(
-    DbContext db,
+    ApplicationDbContext db,
     Func<T, TB, bool> getEntityFunction
     ) : IBaseRepository<T, TB>
 where T: class
@@ -23,7 +24,8 @@ where T: class
 
     public async Task<T?> Get(TB id)
     {
-        return await db.Set<T>().FirstOrDefaultAsync(e => getEntityFunction(e, id));
+        var entities = await db.Set<T>().ToListAsync();
+        return entities.FirstOrDefault(e => getEntityFunction(e, id));
     }
 
     public async Task<List<T>> Select()
