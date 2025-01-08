@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Films";
+}
+
+@model IEnumerable<FilmFlicks.Domain.Entities.Film>
+
+<div class="container">
+    <h1>Фильмы</h1>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var film in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card movie-card rounded">
+                        <div class="card-body">
+                            <h5 class="card-title">@film.Name</h5>
+                            <p class="card-text">@film.Description</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-start align-items-center">
+                            <span class="rating">@film.Rating/10</span>
+                        </div>
+                        <a href="/films/@film.Id" class="read-more-button">Read More</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Нет фильмов для отображения.</p>
+    }
+</div>
+
+<link href="css/films_page.css" rel="stylesheet">

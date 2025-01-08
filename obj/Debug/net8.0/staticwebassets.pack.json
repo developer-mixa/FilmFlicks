@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\FilmFlicks.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Mixail\\RiderProjects\\FilmFlicks\\wwwroot\\css\\films_page.css",
+      "PackagePath": "staticwebassets\\css\\films_page.css"
+    },
+    {
+      "Id": "C:\\Users\\Mixail\\RiderProjects\\FilmFlicks\\wwwroot\\css\\home.css",
+      "PackagePath": "staticwebassets\\css\\home.css"
+    },
+    {
       "Id": "C:\\Users\\Mixail\\RiderProjects\\FilmFlicks\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
