@@ -1,16 +1,16 @@
-using FilmFlicks.Domain.Repositories;
+using FilmFlicks.Domain.UseCases.Films;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmFlicks.Controllers.Pages;
 
 [Route("films")]
-public class FilmsPageController(IFilmRepository filmRepository) : Controller
+public class FilmsPageController(GetFilmsUseCase getFilmsUseCase) : Controller
 {
     
     [Route("")]
     public async Task<IActionResult> Index()
     {
-        var films = await filmRepository.Select();
+        var films = await getFilmsUseCase.Execute();
         return View(films);
     }
     

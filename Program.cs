@@ -2,6 +2,7 @@ using DotNetEnv;
 using FilmFlicks.DAL;
 using FilmFlicks.DAL.Repositories;
 using FilmFlicks.Domain.Repositories;
+using FilmFlicks.Domain.UseCases.Films;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 namespace FilmFlicks;
@@ -18,6 +19,7 @@ public class Program
         
         // Dependencies
         builder.Services.AddScoped<IFilmRepository, DbFilmRepository>();
+        builder.Services.AddScoped<GetFilmsUseCase>();
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
