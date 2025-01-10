@@ -13,8 +13,7 @@ public class DbTicketRepository(ApplicationDbContext db)
         if (ticket != null)
         {
             ticket.UserId = userId;
-            db.Tickets.Update(ticket);
-            await db.SaveChangesAsync();
+            await Update(ticket);
         }
     }
 
@@ -22,11 +21,12 @@ public class DbTicketRepository(ApplicationDbContext db)
     {
         var ticket = await Get(ticketId);
         
-        if (ticket != null)
+        if (ticket != null && ticket.UserId == userId)
         {
             ticket.UserId = null;
-            db.Tickets.Update(ticket);
-            await db.SaveChangesAsync();
+            await Update(ticket);
         }
     }
+    
+    
 }
