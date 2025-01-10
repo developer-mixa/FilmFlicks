@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FilmFlicks.Infrastructure
+@using System.Security.Claims
 @model FilmFlicks.Domain.Entities.FilmEntity
 
 <h1>@Model.Name</h1>
@@ -6,32 +10,44 @@
 
 <h3>Рейтинг: @Model.Rating/10</h3>
 
-@if (Model.FilmCinemas.Any())
+
+@inject IAuthorizationService AuthorizationService
+
+
+@if ((await AuthorizationService.AuthorizeAsync(User, "UserPolicy")).Succeeded)
 {
-    <form asp-action="BookCinema" method="post">
-        <label for="cinemaSelect">Выберите билет:</label>
-        <select name="ticketId" id="cinemaSelect">
-            @foreach(var fCinema in Model.FilmCinemas)
-            {
-                @foreach (var ticket in fCinema.Tickets)
+    @if (Model.FilmCinemas.Any())
+    {
+        <form asp-action="Book" method="post">
+            <label for="cinemaSelect">Выберите билет:</label>
+            <select name="ticketId" id="cinemaSelect">
+                @foreach(var fCinema in Model.FilmCinemas)
                 {
-                    if (ticket.UserId == null)
+                    @foreach (var ticket in fCinema.Tickets)
                     {
-                        <option value="@ticket.Id">@fCinema.Cinema.Name (@fCinema.Cinema.AddressEntity)</option>
+                        if (ticket.UserId == null)
+                        {
+                            <option value="@ticket.Id">@fCinema.Cinema.Name (@fCinema.Cinema.AddressEntity)-@ticket.Id</option>
+                        }
                     }
                 }
-            }
-        </select>
-        <input type="hidden" name="ticketId" value="@Model.Id">
-        <button type="submit">Забронировать</button>
-    </form>
+            </select>
+            <input type="hidden" name="userId" value="@long.Parse(User.FindFirstValue(CustomClaims.UserId) ?? string.Empty)">
+            <button type="submit">Забронировать</button>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Этот фильм еще не назначен ни одному кинотеатру.
+        </div>
+    }
 }
 else
 {
-    <div class="alert alert-info">
-        Этот фильм еще не назначен ни одному кинотеатру.
-    </div>
+    <p>Для бронирования нужно авторизироваться</p>
 }
+
 <style>
     body {
         font-family: Arial, sans-serif;

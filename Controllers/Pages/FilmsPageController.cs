@@ -1,3 +1,5 @@
+using FilmFlicks.Controllers.Pages.Base;
+using FilmFlicks.Domain.Repositories;
 using FilmFlicks.Domain.UseCases.Films;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,8 +8,9 @@ namespace FilmFlicks.Controllers.Pages;
 [Route("films")]
 public class FilmsPageController(
     GetFilmsUseCase getFilmsUseCase,
-    GetFilmWithCinemaUseCase getFilmWithCinemaUseCase
-) : Controller
+    GetFilmWithCinemaUseCase getFilmWithCinemaUseCase,
+    ITicketRepository ticketRepository
+) : BookController(ticketRepository)
 {
     
     [Route("")]
@@ -28,9 +31,5 @@ public class FilmsPageController(
 
         return View(film);
     }
-
-    [HttpPost]
-    public void BookCinema(long filmId, long cinemaId)
-    {
-    }
+    
 }

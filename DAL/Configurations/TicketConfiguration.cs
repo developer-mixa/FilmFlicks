@@ -11,9 +11,5 @@ public class TicketConfiguration : IEntityTypeConfiguration<TicketEntity>
         builder
             .HasOne(t => t.FilmCinema)
             .WithMany(f => f.Tickets);
-        
-        builder
-            .HasOne(t => t.User)
-            .WithOne();
     }
 }

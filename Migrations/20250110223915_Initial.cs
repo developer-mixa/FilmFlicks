@@ -261,8 +261,7 @@ namespace FilmFlicks.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_tickets_user_id",
                 table: "tickets",
-                column: "user_id",
-                unique: true);
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_to_roles_user_id",

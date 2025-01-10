@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using FilmFlicks.Domain.Repositories;
 using FilmFlicks.Domain.Usecases.Tickets;
 using FilmFlicks.Infrastructure;
 using Microsoft.AspNetCore.Authorization;

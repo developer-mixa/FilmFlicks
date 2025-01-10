@@ -252,8 +252,7 @@ namespace FilmFlicks.Migrations
 
                     b.HasIndex("FilmCinemaId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("tickets");
                 });
@@ -353,8 +352,8 @@ namespace FilmFlicks.Migrations
                         .IsRequired();
 
                     b.HasOne("FilmFlicks.Domain.Entities.UserEntity", "User")
-                        .WithOne()
-                        .HasForeignKey("FilmFlicks.Domain.Entities.TicketEntity", "UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("FilmCinema");
 
