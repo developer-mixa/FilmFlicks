@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("addresses")]
-public class Address
+public class Address : IdEntity
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
-
     [Column("city_name")]
     [StringLength(1024), Required]
     public string CityName { get; set; }

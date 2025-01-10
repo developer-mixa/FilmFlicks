@@ -4,11 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FilmFlicks.Domain.Entities;
 
-public class FilmCinema
+public class FilmCinema : IdEntity
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
-    
     [Column("cinema_id"), Required]
     public long CinemaId { get; set; }
     public Cinema Cinema { get; set; }

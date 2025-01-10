@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("tickets")]
-public class Ticket
+public class Ticket : IdEntity
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public long Id { get; set; }
-    
     [Column("film_time"), Required]
     [DataType("datetime")]
     public DateTime FilmTime { get; set; }
