@@ -157,14 +157,14 @@ namespace FilmFlicks.Migrations
                 name: "FilmCinemas",
                 columns: table => new
                 {
-                    cinema_id = table.Column<long>(type: "bigint", nullable: false),
-                    film_id = table.Column<long>(type: "bigint", nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    cinema_id = table.Column<long>(type: "bigint", nullable: false),
+                    film_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FilmCinemas", x => new { x.cinema_id, x.film_id });
+                    table.PrimaryKey("PK_FilmCinemas", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FilmCinemas_cinemas_cinema_id",
                         column: x => x.cinema_id,
@@ -186,20 +186,17 @@ namespace FilmFlicks.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     film_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    place = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
                     film_cinema_id = table.Column<long>(type: "bigint", nullable: false),
-                    FilmCinemaCinemaId = table.Column<long>(type: "bigint", nullable: false),
-                    FilmCinemaFilmId = table.Column<long>(type: "bigint", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tickets_FilmCinemas_FilmCinemaCinemaId_FilmCinemaFilmId",
-                        columns: x => new { x.FilmCinemaCinemaId, x.FilmCinemaFilmId },
+                        name: "FK_tickets_FilmCinemas_film_cinema_id",
+                        column: x => x.film_cinema_id,
                         principalTable: "FilmCinemas",
-                        principalColumns: new[] { "cinema_id", "film_id" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tickets_users_user_id",
@@ -242,6 +239,11 @@ namespace FilmFlicks.Migrations
                 column: "AddressEntityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FilmCinemas_cinema_id",
+                table: "FilmCinemas",
+                column: "cinema_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FilmCinemas_film_id",
                 table: "FilmCinemas",
                 column: "film_id");
@@ -252,9 +254,9 @@ namespace FilmFlicks.Migrations
                 column: "permission_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tickets_FilmCinemaCinemaId_FilmCinemaFilmId",
+                name: "IX_tickets_film_cinema_id",
                 table: "tickets",
-                columns: new[] { "FilmCinemaCinemaId", "FilmCinemaFilmId" });
+                column: "film_cinema_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tickets_user_id",

@@ -6,17 +6,23 @@
 
 <h3>Рейтинг: @Model.Rating/10</h3>
 
-@if (Model.Cinemas.Any())
+@if (Model.FilmCinemas.Any())
 {
     <form asp-action="BookCinema" method="post">
-        <label for="cinemaSelect">Выберите кинотеатр:</label>
-        <select name="cinemaId" id="cinemaSelect">
-            @foreach(var cinema in Model.Cinemas)
+        <label for="cinemaSelect">Выберите билет:</label>
+        <select name="ticketId" id="cinemaSelect">
+            @foreach(var fCinema in Model.FilmCinemas)
             {
-                <option value="@cinema.Id">@cinema.Name (@cinema.AddressEntity)</option>
+                @foreach (var ticket in fCinema.Tickets)
+                {
+                    if (ticket.UserId == null)
+                    {
+                        <option value="@ticket.Id">@fCinema.Cinema.Name (@fCinema.Cinema.AddressEntity)</option>
+                    }
+                }
             }
         </select>
-        <input type="hidden" name="filmId" value="@Model.Id">
+        <input type="hidden" name="ticketId" value="@Model.Id">
         <button type="submit">Забронировать</button>
     </form>
 }

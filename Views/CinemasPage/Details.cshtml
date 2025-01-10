@@ -4,17 +4,23 @@
 
 <p>@Html.Raw(Model.AddressEntity)</p>
 
-@if (Model.Films.Any())
+@if (Model.FilmCinemas.Any())
 {
     <form asp-action="BookCinema" method="post">
-        <label for="cinemaSelect">Выберите фильм:</label>
-        <select name="cinemaId" id="cinemaSelect">
-            @foreach(var film in Model.Films)
+        <label for="cinemaSelect">Выберите билет:</label>
+        <select name="ticketId" id="cinemaSelect">
+            @foreach(var fCinema in Model.FilmCinemas)
             {
-                <option value="@film.Id">@film.Name</option>
+                @foreach (var ticket in fCinema.Tickets)
+                {
+                    if (ticket.UserId == null)
+                    {
+                        <option value="@ticket.Id">@fCinema.Film.Name</option>
+                    }
+                }
             }
         </select>
-        <input type="hidden" name="cinemaId" value="@Model.Id">
+        <input type="hidden" name="ticketId" value="@Model.Id">
         <button type="submit">Забронировать</button>
     </form>
 }

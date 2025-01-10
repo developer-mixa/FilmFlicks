@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FilmFlicks.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250110191557_Initial")]
+    [Migration("20250110213025_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -84,6 +84,12 @@ namespace FilmFlicks.Migrations
 
             modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmCinema", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
                     b.Property<long>("CinemaId")
                         .HasColumnType("bigint")
                         .HasColumnName("cinema_id");
@@ -92,13 +98,9 @@ namespace FilmFlicks.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("film_id");
 
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.HasKey("Id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.HasKey("CinemaId", "FilmId");
+                    b.HasIndex("CinemaId");
 
                     b.HasIndex("FilmId");
 
@@ -237,12 +239,6 @@ namespace FilmFlicks.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("FilmCinemaCinemaId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("FilmCinemaFilmId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("FilmCinemaId")
                         .HasColumnType("bigint")
                         .HasColumnName("film_cinema_id");
@@ -251,22 +247,16 @@ namespace FilmFlicks.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("film_time");
 
-                    b.Property<string>("Place")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)")
-                        .HasColumnName("place");
-
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FilmCinemaId");
+
                     b.HasIndex("UserId")
                         .IsUnique();
-
-                    b.HasIndex("FilmCinemaCinemaId", "FilmCinemaFilmId");
 
                     b.ToTable("tickets");
                 });
@@ -359,15 +349,15 @@ namespace FilmFlicks.Migrations
 
             modelBuilder.Entity("FilmFlicks.Domain.Entities.TicketEntity", b =>
                 {
+                    b.HasOne("FilmFlicks.Domain.Entities.FilmCinema", "FilmCinema")
+                        .WithMany("Tickets")
+                        .HasForeignKey("FilmCinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FilmFlicks.Domain.Entities.UserEntity", "User")
                         .WithOne()
                         .HasForeignKey("FilmFlicks.Domain.Entities.TicketEntity", "UserId");
-
-                    b.HasOne("FilmFlicks.Domain.Entities.FilmCinema", "FilmCinema")
-                        .WithMany("Tickets")
-                        .HasForeignKey("FilmCinemaCinemaId", "FilmCinemaFilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("FilmCinema");
 
