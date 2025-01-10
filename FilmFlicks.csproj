@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
-      <Folder Include="Views\CinemasPage\" />
       <Folder Include="Views\TicketsPage\" />
     </ItemGroup>
 

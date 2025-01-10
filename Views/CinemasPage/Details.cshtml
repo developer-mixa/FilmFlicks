@@ -1,0 +1,69 @@
+@model FilmFlicks.Domain.Entities.Cinema
+
+<h1>@Model.Name</h1>
+
+<p>@Html.Raw(Model.Address)</p>
+
+@if (Model.Films.Any())
+{
+    <form asp-action="BookCinema" method="post">
+        <label for="cinemaSelect">Выберите фильм:</label>
+        <select name="cinemaId" id="cinemaSelect">
+            @foreach(var film in Model.Films)
+            {
+                <option value="@film.Id">@film.Name</option>
+            }
+        </select>
+        <input type="hidden" name="cinemaId" value="@Model.Id">
+        <button type="submit">Забронировать</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-info">
+        Этот кинотеатр еще не назначен ни одному фильму.
+    </div>
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    p {
+        line-height: 1.6;
+    }
+
+    h3 {
+        color: #666;
+    }
+
+    form {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    select, button {
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
