@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<h2>Welcome to FilmFlicks</h2>
+
+@inject IAuthorizationService AuthorizationService
+
+
+@if ((await AuthorizationService.AuthorizeAsync(User, "UserPolicy")).Succeeded)
+{
+    <p>You are logged in.</p>
+}
+else
+{
+    <p>You are not logged in. Please <a asp-action="Login">log in</a> or <a asp-action="Register">register</a>.</p>
+}

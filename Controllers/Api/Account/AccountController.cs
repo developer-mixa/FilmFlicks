@@ -2,6 +2,7 @@ using FilmFlicks.Controllers.Requests;
 using FilmFlicks.Domain.Exceptions;
 using FilmFlicks.Domain.Services;
 using FilmFlicks.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmFlicks.Controllers.Api.Account;
@@ -35,6 +36,14 @@ public class AccountController(UsersService usersService) : Controller
             return Results.BadRequest("Input password is wrong!");
         }
 
+    }
+    
+    [Authorize]
+    [HttpGet("logout")]
+    public IResult Logout()
+    {
+        HttpContext.Response.Cookies.Delete(Envs.GetAuthCookieKey());
+        return Results.Ok();
     }
     
 }

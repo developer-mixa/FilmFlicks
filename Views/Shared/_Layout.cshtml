@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using FilmFlicks.Core
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -25,12 +31,25 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="CinemasPage" asp-action="Index">Cinemas</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="FilmsPage" asp-action="Index">Your Tickets</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="FilmsPage" asp-action="Index">Profile</a>
-                    </li>
+                    
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "UserPolicy")).Succeeded)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="FilmsPage" asp-action="Index">Your Tickets</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AccountPage" asp-action="Logout">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AccountPage" asp-action="Index">Sign In</a>
+                        </li>
+
+                    }
+                    
                 </ul>
             </div>
         </div>
