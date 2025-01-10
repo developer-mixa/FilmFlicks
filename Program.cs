@@ -1,5 +1,6 @@
 using System.Text;
 using DotNetEnv;
+using FilmFlicks.Core;
 using FilmFlicks.DAL;
 using FilmFlicks.DAL.Repositories.Address;
 using FilmFlicks.DAL.Repositories.Cinema;
@@ -15,7 +16,9 @@ using FilmFlicks.Domain.Usecases.Cinemas;
 using FilmFlicks.Domain.UseCases.Films;
 using FilmFlicks.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using AuthorizationOptions = FilmFlicks.DAL.Options.AuthorizationOptions;
 
 namespace FilmFlicks;
 
@@ -29,6 +32,10 @@ public class Program
 
         builder.Services.AddDbContext<ApplicationDbContext>();
         builder.Services.AddHttpContextAccessor();
+        
+        // Options
+        builder.Services.Configure<AuthorizationOptions>(
+            builder.Configuration.GetSection(nameof(AuthorizationOptions)));
         
         // Dependencies
         builder.Services.AddScoped<IFilmRepository, DbFilmRepository>();
@@ -48,16 +55,19 @@ public class Program
         builder.Services.AddScoped<IFilmCinemaRepository, DbFilmCinemaRepository>();
 
         builder.Services.AddScoped<UsersService>();
-        
+        builder.Services.AddScoped<PermissionsService>();
+
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();
         builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+        builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthHandler>();
+        
         // Auth
         builder.Services.AddAuthentication(
             JwtBearerDefaults.AuthenticationScheme
             ).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
-            options.TokenValidationParameters = new()
+            options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = false,
                 ValidateAudience = false,
@@ -66,7 +76,7 @@ public class Program
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Envs.GetSecurityKey())                    )
             };
 
-            options.Events = new JwtBearerEvents()
+            options.Events = new JwtBearerEvents
             {
                 OnMessageReceived = context =>
                 {
@@ -76,7 +86,24 @@ public class Program
                 }
             };
         });
-        builder.Services.AddAuthorization();
+        
+        // Auth
+        builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                    policy.AddRequirements(new PermissionRequirement(
+                        [Permission.Crud]
+                    ))
+                );
+                
+                options.AddPolicy("UserPolicy", policy =>
+                    policy.AddRequirements(new PermissionRequirement(
+                        [Permission.User]
+                    ))
+                );
+                
+            }
+        );
         
         // Add services to the container.
         builder.Services.AddControllersWithViews();
@@ -91,8 +118,6 @@ public class Program
             app.UseHsts();
         }
         
-        // For security
-
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

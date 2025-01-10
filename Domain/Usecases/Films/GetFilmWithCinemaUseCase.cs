@@ -6,11 +6,11 @@ namespace FilmFlicks.Domain.UseCases.Films;
 
 public class GetFilmWithCinemaUseCase(ApplicationDbContext dbContext)
 {
-    public async Task<Film?> Execute(long id)
+    public async Task<FilmEntity?> Execute(long id)
     {
         var film = await dbContext.Films
             .Include(film => film.Cinemas)
-            .ThenInclude(cinema => cinema.Address)
+            .ThenInclude(cinema => cinema.AddressEntity)
             .FirstOrDefaultAsync(film => film.Id == id);
         return film;
     }

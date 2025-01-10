@@ -11,9 +11,9 @@ namespace FilmFlicks.Infrastructure;
 
 public class JwtProvider : IJwtProvider
 {
-    public string GenerateToken(User user)
+    public string GenerateToken(UserEntity user)
     {
-        Claim[] claims = [new Claim("userId", user.Id.ToString())];
+        Claim[] claims = [new Claim(CustomClaims.UserId, user.Id.ToString())];
         
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Envs.GetSecurityKey())),

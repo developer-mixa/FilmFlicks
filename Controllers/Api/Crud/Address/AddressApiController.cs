@@ -6,4 +6,4 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilmFlicks.Controllers.Api.Crud.Address;
 
 [Route("api/addresses")]
-public class AddressApiController(IAddressRepository addressRepository) : CrudController<Domain.Entities.Address>(addressRepository);
+public class AddressApiController(IAddressRepository addressRepository) : CrudController<Domain.Entities.AddressEntity>(addressRepository);

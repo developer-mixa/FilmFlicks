@@ -1,4 +1,3 @@
-using FilmFlicks.Domain;
 using FilmFlicks.Domain.Auth;
 
 namespace FilmFlicks.Infrastructure;

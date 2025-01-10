@@ -3,7 +3,7 @@ using FilmFlicks.Domain.Entities;
 
 namespace FilmFlicks.Domain.Repositories;
 
-public interface IFilmRepository : IBaseRepository<Film, long>
+public interface IFilmRepository : IBaseRepository<FilmEntity, long>
 {
     
 }

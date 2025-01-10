@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FilmFlicks.DAL.Configurations;
 
-public class FilmCinemaConfiguration : IEntityTypeConfiguration<Film>
+public class FilmCinemaConfiguration : IEntityTypeConfiguration<FilmEntity>
 {
-    public void Configure(EntityTypeBuilder<Film> builder)
+    public void Configure(EntityTypeBuilder<FilmEntity> builder)
     {
 
         builder

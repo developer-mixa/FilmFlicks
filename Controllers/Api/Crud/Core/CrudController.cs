@@ -1,9 +1,11 @@
 using FilmFlicks.DAL.Repositories.Core;
 using FilmFlicks.Domain.Entities.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilmFlicks.Controllers.Api.Crud.Core;
 
+[Authorize("AdminPolicy")]
 public class CrudController<T>(IBaseRepository<T, long> crudRepository) : Controller
 where T: IdEntity
 {

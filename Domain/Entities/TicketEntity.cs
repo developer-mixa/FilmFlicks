@@ -5,7 +5,7 @@ using FilmFlicks.Domain.Entities.Core;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("tickets")]
-public class Ticket : IdEntity
+public class TicketEntity : IdEntity
 {
     [Column("film_time"), Required]
     [DataType("datetime")]
@@ -23,7 +23,7 @@ public class Ticket : IdEntity
     [Column("user_id")]
     public long? UserId { get; set; }
     
-    public User? User { get; set; }
+    public UserEntity? User { get; set; }
 
     public override string ToString() => $"place={Place} filmcinema={FilmCinema}";
 }

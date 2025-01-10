@@ -5,7 +5,7 @@ namespace FilmFlicks.Domain.UseCases.Films;
 
 public class GetFilmsUseCase(IFilmRepository filmRepository)
 {
-    public async Task<IEnumerable<Film>> Execute()
+    public async Task<IEnumerable<FilmEntity>> Execute()
     {
         return await filmRepository.Select();
     }

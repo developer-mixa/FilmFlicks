@@ -9,13 +9,13 @@ public class FilmCinema : IdEntity
 {
     [Column("cinema_id"), Required]
     public long CinemaId { get; set; }
-    public Cinema Cinema { get; set; }
+    public CinemaEntity Cinema { get; set; }
 
     [Column("film_id"), Required]
     public long FilmId { get; set; }
-    public Film Film { get; set; }
+    public FilmEntity Film { get; set; }
     
-    public ICollection<Ticket> Tickets { get; set; }
+    public ICollection<TicketEntity> Tickets { get; set; }
 
     public override string ToString() => $"film={Film} cinema={Cinema}";
 }

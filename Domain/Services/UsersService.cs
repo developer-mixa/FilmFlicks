@@ -14,15 +14,14 @@ public class UsersService(
     public async Task Register(string username, string password)
     {
         var hashedPassword = passwordHasher.Generate(password);
-
-        var user = new User
+        
+        var user = new UserEntity
         {
             Username = username,
-            PasswordHash = hashedPassword,
-            //Role = "Guest"
+            PasswordHash = hashedPassword
         };
 
-        await userRepository.Create(user);
+        await userRepository.CreateWithRole(user);
     }
 
     public async Task<string> Login(string username, string password)

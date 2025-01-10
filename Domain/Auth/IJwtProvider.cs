@@ -4,5 +4,5 @@ namespace FilmFlicks.Domain.Auth;
 
 public interface IJwtProvider
 {
-    public string GenerateToken(User user);
+    public string GenerateToken(UserEntity user);
 }

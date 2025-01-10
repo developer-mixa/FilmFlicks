@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FilmFlicks.DAL.Configurations;
 
-public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
+public class TicketConfiguration : IEntityTypeConfiguration<TicketEntity>
 {
-    public void Configure(EntityTypeBuilder<Ticket> builder)
+    public void Configure(EntityTypeBuilder<TicketEntity> builder)
     {
         builder
             .HasOne(t => t.FilmCinema)

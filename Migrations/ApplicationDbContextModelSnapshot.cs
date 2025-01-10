@@ -22,7 +22,7 @@ namespace FilmFlicks.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Address", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.AddressEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace FilmFlicks.Migrations
                     b.ToTable("addresses");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Cinema", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.CinemaEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace FilmFlicks.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AddressId")
+                    b.Property<long>("AddressEntityId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -74,12 +74,35 @@ namespace FilmFlicks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressEntityId");
 
                     b.ToTable("cinemas");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Film", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmCinema", b =>
+                {
+                    b.Property<long>("CinemaId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("cinema_id");
+
+                    b.Property<long>("FilmId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("film_id");
+
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.HasKey("CinemaId", "FilmId");
+
+                    b.HasIndex("FilmId");
+
+                    b.ToTable("FilmCinemas");
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,30 +130,103 @@ namespace FilmFlicks.Migrations
                     b.ToTable("films");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmCinema", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.PermissionEntity", b =>
                 {
-                    b.Property<long>("CinemaId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("cinema_id");
-
-                    b.Property<long>("FilmId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("film_id");
-
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.HasKey("CinemaId", "FilmId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasIndex("FilmId");
+                    b.HasKey("Id");
 
-                    b.ToTable("FilmCinemas");
+                    b.ToTable("permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Crud"
+                        });
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.RoleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.RolePermissionEntity", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("permission_id");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("role_to_permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 1
+                        });
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.TicketEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +268,7 @@ namespace FilmFlicks.Migrations
                     b.ToTable("tickets");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.User", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,7 +276,7 @@ namespace FilmFlicks.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("password");
@@ -196,26 +292,43 @@ namespace FilmFlicks.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Cinema", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.UserRoleEntity", b =>
                 {
-                    b.HasOne("FilmFlicks.Domain.Entities.Address", "Address")
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("users_to_roles");
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.CinemaEntity", b =>
+                {
+                    b.HasOne("FilmFlicks.Domain.Entities.AddressEntity", "AddressEntity")
                         .WithMany()
-                        .HasForeignKey("AddressId")
+                        .HasForeignKey("AddressEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("AddressEntity");
                 });
 
             modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmCinema", b =>
                 {
-                    b.HasOne("FilmFlicks.Domain.Entities.Cinema", "Cinema")
+                    b.HasOne("FilmFlicks.Domain.Entities.CinemaEntity", "Cinema")
                         .WithMany("FilmCinemas")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FilmFlicks.Domain.Entities.Film", "Film")
+                    b.HasOne("FilmFlicks.Domain.Entities.FilmEntity", "Film")
                         .WithMany("FilmCinemas")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -226,11 +339,26 @@ namespace FilmFlicks.Migrations
                     b.Navigation("Film");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.RolePermissionEntity", b =>
                 {
-                    b.HasOne("FilmFlicks.Domain.Entities.User", "User")
+                    b.HasOne("FilmFlicks.Domain.Entities.PermissionEntity", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FilmFlicks.Domain.Entities.RoleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.TicketEntity", b =>
+                {
+                    b.HasOne("FilmFlicks.Domain.Entities.UserEntity", "User")
                         .WithOne()
-                        .HasForeignKey("FilmFlicks.Domain.Entities.Ticket", "UserId");
+                        .HasForeignKey("FilmFlicks.Domain.Entities.TicketEntity", "UserId");
 
                     b.HasOne("FilmFlicks.Domain.Entities.FilmCinema", "FilmCinema")
                         .WithMany("Tickets")
@@ -243,12 +371,22 @@ namespace FilmFlicks.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Cinema", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.UserRoleEntity", b =>
                 {
-                    b.Navigation("FilmCinemas");
+                    b.HasOne("FilmFlicks.Domain.Entities.RoleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FilmFlicks.Domain.Entities.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("FilmFlicks.Domain.Entities.Film", b =>
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.CinemaEntity", b =>
                 {
                     b.Navigation("FilmCinemas");
                 });
@@ -256,6 +394,11 @@ namespace FilmFlicks.Migrations
             modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmCinema", b =>
                 {
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("FilmFlicks.Domain.Entities.FilmEntity", b =>
+                {
+                    b.Navigation("FilmCinemas");
                 });
 #pragma warning restore 612, 618
         }

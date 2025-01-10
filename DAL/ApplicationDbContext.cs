@@ -1,22 +1,28 @@
 using FilmFlicks.DAL.Configurations;
+using FilmFlicks.DAL.Options;
 using FilmFlicks.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace FilmFlicks.DAL;
 
 public sealed class ApplicationDbContext : DbContext
 {
     
-    public DbSet<Address> Addresses { get; set; }
-    public DbSet<Cinema> Cinemas { get; set; }
-    public DbSet<Film> Films { get; set; }
+    public DbSet<AddressEntity> Addresses { get; set; }
+    public DbSet<CinemaEntity> Cinemas { get; set; }
+    public DbSet<FilmEntity> Films { get; set; }
     public DbSet<FilmCinema> FilmCinemas { get; set; }
-    public DbSet<Ticket> Tickets { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<TicketEntity> Tickets { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<RoleEntity> Roles { get; set; }
     
+    private readonly IOptions<AuthorizationOptions> _authOptions;
     
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IOptions<AuthorizationOptions> authOptions) : base(options)
     {
+        _authOptions = authOptions;
+
         Database.EnsureCreated();
     }
 
@@ -34,6 +40,10 @@ public sealed class ApplicationDbContext : DbContext
         
         modelBuilder.ApplyConfiguration(new FilmCinemaConfiguration());
         modelBuilder.ApplyConfiguration(new TicketConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+        modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(_authOptions.Value));
     }
 
 

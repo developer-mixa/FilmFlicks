@@ -3,4 +3,4 @@ using FilmFlicks.Domain.Entities;
 
 namespace FilmFlicks.Domain.Repositories;
 
-public interface ICinemaRepository : IBaseRepository<Cinema, long>;
+public interface ICinemaRepository : IBaseRepository<CinemaEntity, long>;

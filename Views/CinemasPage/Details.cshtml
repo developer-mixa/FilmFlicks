@@ -1,8 +1,8 @@
-@model FilmFlicks.Domain.Entities.Cinema
+@model FilmFlicks.Domain.Entities.CinemaEntity
 
 <h1>@Model.Name</h1>
 
-<p>@Html.Raw(Model.Address)</p>
+<p>@Html.Raw(Model.AddressEntity)</p>
 
 @if (Model.Films.Any())
 {

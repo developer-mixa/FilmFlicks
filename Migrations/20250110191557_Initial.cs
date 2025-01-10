@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FilmFlicks.Migrations
 {
     /// <inheritdoc />
@@ -44,6 +46,32 @@ namespace FilmFlicks.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "permissions",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_permissions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "roles",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_roles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -64,15 +92,63 @@ namespace FilmFlicks.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
-                    AddressId = table.Column<long>(type: "bigint", nullable: false)
+                    AddressEntityId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_cinemas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_cinemas_addresses_AddressId",
-                        column: x => x.AddressId,
+                        name: "FK_cinemas_addresses_AddressEntityId",
+                        column: x => x.AddressEntityId,
                         principalTable: "addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "role_to_permissions",
+                columns: table => new
+                {
+                    role_id = table.Column<int>(type: "integer", nullable: false),
+                    permission_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_role_to_permissions", x => new { x.role_id, x.permission_id });
+                    table.ForeignKey(
+                        name: "FK_role_to_permissions_permissions_permission_id",
+                        column: x => x.permission_id,
+                        principalTable: "permissions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_role_to_permissions_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users_to_roles",
+                columns: table => new
+                {
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    role_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users_to_roles", x => new { x.role_id, x.user_id });
+                    table.ForeignKey(
+                        name: "FK_users_to_roles_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_users_to_roles_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -132,15 +208,48 @@ namespace FilmFlicks.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "permissions",
+                columns: new[] { "id", "name" },
+                values: new object[,]
+                {
+                    { 1, "User" },
+                    { 2, "Crud" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "roles",
+                columns: new[] { "id", "name" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "role_to_permissions",
+                columns: new[] { "permission_id", "role_id" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 1 },
+                    { 1, 2 }
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_cinemas_AddressId",
+                name: "IX_cinemas_AddressEntityId",
                 table: "cinemas",
-                column: "AddressId");
+                column: "AddressEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FilmCinemas_film_id",
                 table: "FilmCinemas",
                 column: "film_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_role_to_permissions_permission_id",
+                table: "role_to_permissions",
+                column: "permission_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tickets_FilmCinemaCinemaId_FilmCinemaFilmId",
@@ -152,16 +261,33 @@ namespace FilmFlicks.Migrations
                 table: "tickets",
                 column: "user_id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_to_roles_user_id",
+                table: "users_to_roles",
+                column: "user_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "role_to_permissions");
+
+            migrationBuilder.DropTable(
                 name: "tickets");
 
             migrationBuilder.DropTable(
+                name: "users_to_roles");
+
+            migrationBuilder.DropTable(
+                name: "permissions");
+
+            migrationBuilder.DropTable(
                 name: "FilmCinemas");
+
+            migrationBuilder.DropTable(
+                name: "roles");
 
             migrationBuilder.DropTable(
                 name: "users");

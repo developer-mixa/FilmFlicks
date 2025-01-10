@@ -1,4 +1,4 @@
-@model FilmFlicks.Domain.Entities.Film
+@model FilmFlicks.Domain.Entities.FilmEntity
 
 <h1>@Model.Name</h1>
 
@@ -13,7 +13,7 @@
         <select name="cinemaId" id="cinemaSelect">
             @foreach(var cinema in Model.Cinemas)
             {
-                <option value="@cinema.Id">@cinema.Name (@cinema.Address)</option>
+                <option value="@cinema.Id">@cinema.Name (@cinema.AddressEntity)</option>
             }
         </select>
         <input type="hidden" name="filmId" value="@Model.Id">

@@ -2,7 +2,7 @@
 ViewData["Title"] = "Cinemas";
 }
 
-@model IEnumerable<FilmFlicks.Domain.Entities.Cinema>
+@model IEnumerable<FilmFlicks.Domain.Entities.CinemaEntity>
 
 <div class="container">
     <h1>Кинотеатры</h1>
@@ -16,7 +16,7 @@ ViewData["Title"] = "Cinemas";
             <div class="card movie-card rounded">
             <div class="card-body">
             <h5 class="card-title">@cinema.Name</h5>
-            <p class="card-text">@cinema.Address</p>
+            <p class="card-text">@cinema.AddressEntity</p>
             </div>
             <div class="card-footer d-flex justify-content-start align-items-center">
             </div>

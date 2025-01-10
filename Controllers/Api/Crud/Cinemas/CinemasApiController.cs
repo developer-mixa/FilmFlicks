@@ -6,4 +6,4 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilmFlicks.Controllers.Api.Crud.Cinemas;
 
 [Route("api/cinemas")]
-public class CinemasApiController(ICinemaRepository cinemaRepository) : CrudController<Cinema>(cinemaRepository);
+public class CinemasApiController(ICinemaRepository cinemaRepository) : CrudController<CinemaEntity>(cinemaRepository);

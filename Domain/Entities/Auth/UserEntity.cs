@@ -5,7 +5,7 @@ using FilmFlicks.Domain.Entities.Core;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("users")]
-public class User : IdEntity
+public class UserEntity : IdEntity
 {
     [Column("username"), Required]
     [MaxLength(50)]
@@ -13,8 +13,7 @@ public class User : IdEntity
     
     [Column("password"), Required]
     public string PasswordHash { get; set; }
-    
-    /*[Column("role"), Required]
-    public string Role { get; set; }*/
-    
+
+    public ICollection<RoleEntity> Roles { get; set; } = [];
+
 }

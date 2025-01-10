@@ -5,7 +5,7 @@ using FilmFlicks.Domain.Entities.Core;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("films")]
-public class Film : IdEntity
+public class FilmEntity : IdEntity
 {
     [Column("name")]
     [MaxLength(1024), Required]
@@ -18,7 +18,7 @@ public class Film : IdEntity
     [Range(0f, 10f)]
     public float Rating { get; set; }
 
-    public List<Cinema> Cinemas { get; } = [];
+    public List<CinemaEntity> Cinemas { get; } = [];
     
     public List<FilmCinema> FilmCinemas { get; } = [];
 

@@ -3,4 +3,4 @@ using FilmFlicks.Domain.Entities;
 
 namespace FilmFlicks.Domain.Repositories;
 
-public interface ITicketRepository : IBaseRepository<Ticket, long>;
+public interface ITicketRepository : IBaseRepository<TicketEntity, long>;

@@ -5,7 +5,7 @@ using FilmFlicks.Domain.Entities.Core;
 namespace FilmFlicks.Domain.Entities;
 
 [Table("addresses")]
-public class Address : IdEntity
+public class AddressEntity : IdEntity
 {
     [Column("city_name")]
     [StringLength(1024), Required]

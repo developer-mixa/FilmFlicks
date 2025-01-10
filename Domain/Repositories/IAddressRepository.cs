@@ -3,4 +3,4 @@ using FilmFlicks.Domain.Entities;
 
 namespace FilmFlicks.Domain.Repositories;
 
-public interface IAddressRepository : IBaseRepository<Address, long>;
+public interface IAddressRepository : IBaseRepository<AddressEntity, long>;

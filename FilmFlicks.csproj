@@ -22,7 +22,6 @@
     <ItemGroup>
       <Folder Include="Controllers\Api\Crud\" />
       <Folder Include="Migrations\" />
-      <Folder Include="Views\TicketsPage\" />
     </ItemGroup>
 
 </Project>
