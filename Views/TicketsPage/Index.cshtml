@@ -1,3 +1,6 @@
+@using FilmFlicks.Infrastructure
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<FilmFlicks.Domain.Entities.TicketEntity>
 
 <h2>Ваши билеты</h2>
@@ -27,7 +30,9 @@ else
                 <td>Фильм: @ticket.FilmCinema.Film.Name</td>
                 <td>@ticket.FilmTime.ToString("dd.MM.yyyy HH:mm")</td>
                 <td>
-                    <a href="#" class="btn btn-danger btn-sm">Отменить</a>
+                    <form asp-action="Cancel" asp-route-ticketId="@ticket.Id" asp-route-userId="@long.Parse(User.FindFirstValue(CustomClaims.UserId) ?? string.Empty)" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Отменить</button>
+                    </form>
                 </td>
             </tr>
         }

@@ -9,7 +9,7 @@ namespace FilmFlicks.Controllers.Pages;
 
 [Route("tickets")]
 [Authorize("UserPolicy")]
-public class TicketsPageController(GetUserTicketsUseCase getUserTickets) : Controller
+public class TicketsPageController(GetUserTicketsUseCase getUserTickets, ITicketRepository ticketRepository) : Controller
 {
     [Route("")]
     public async Task<IActionResult> Index()
@@ -42,5 +42,12 @@ public class TicketsPageController(GetUserTicketsUseCase getUserTickets) : Contr
             ViewBag.ErrorMessage = "Произошла ошибка при загрузке ваших билетов";
             return View();
         }
+    }
+    
+    [HttpPost("cancel")]
+    public async Task<IActionResult> Cancel(long ticketId, long userId)
+    {
+        await ticketRepository.CancelForUser(ticketId, userId);
+        return RedirectToAction(actionName: "Index");
     }
 }
