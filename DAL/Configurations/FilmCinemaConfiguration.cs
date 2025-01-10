@@ -20,8 +20,7 @@ public class FilmCinemaConfiguration : IEntityTypeConfiguration<FilmEntity>
                 f => f
                     .HasOne(fc => fc.Film)
                     .WithMany(f => f.FilmCinemas)
-                    .HasForeignKey(fc => fc.FilmId),
-                j => j.HasKey(fc => new { fc.CinemaId, fc.FilmId })
+                    .HasForeignKey(fc => fc.FilmId)
                 );
     }
 }

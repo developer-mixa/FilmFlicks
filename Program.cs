@@ -14,6 +14,7 @@ using FilmFlicks.Domain.Repositories;
 using FilmFlicks.Domain.Services;
 using FilmFlicks.Domain.Usecases.Cinemas;
 using FilmFlicks.Domain.UseCases.Films;
+using FilmFlicks.Domain.Usecases.Tickets;
 using FilmFlicks.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -53,6 +54,8 @@ public class Program
         builder.Services.AddScoped<IUserRepository, DbUserRepository>();
 
         builder.Services.AddScoped<IFilmCinemaRepository, DbFilmCinemaRepository>();
+
+        builder.Services.AddScoped<GetUserTicketsUseCase>();
 
         builder.Services.AddScoped<UsersService>();
         builder.Services.AddScoped<PermissionsService>();

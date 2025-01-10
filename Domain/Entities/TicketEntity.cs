@@ -11,10 +11,6 @@ public class TicketEntity : IdEntity
     [DataType("datetime")]
     public DateTime FilmTime { get; set; }
     
-    [Column("place"), Required]
-    [StringLength(1024)]
-    public string Place { get; set; }
-
     [Column("film_cinema_id")]
     public long FilmCinemaId { get; set; }
     
@@ -25,5 +21,5 @@ public class TicketEntity : IdEntity
     
     public UserEntity? User { get; set; }
 
-    public override string ToString() => $"place={Place} filmcinema={FilmCinema}";
+    public override string ToString() => $"filmcinema={FilmCinema}";
 }

@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+@model IEnumerable<FilmFlicks.Domain.Entities.TicketEntity>
 
-</body>
-</html>
+<h2>Ваши билеты</h2>
+
+@if (!Model.Any())
+{
+    <p>@ViewBag.Message</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Фильм</th>
+            <th>Время</th>
+            <th>Место</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>Кинотеатр: @ticket.FilmCinema.Cinema.Name</td>
+                <td>Фильм: @ticket.FilmCinema.Film.Name</td>
+                <td>@ticket.FilmTime.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>
+                    <a href="#" class="btn btn-danger btn-sm">Отменить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

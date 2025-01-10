@@ -3,7 +3,7 @@ using FilmFlicks.Domain.Repositories;
 
 namespace FilmFlicks.Domain.Usecases.Tickets;
 
-public class GetUserTickets(
+public class GetUserTicketsUseCase(
     IUserRepository userRepository
     )
 {

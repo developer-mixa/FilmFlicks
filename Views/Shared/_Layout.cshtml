@@ -35,7 +35,7 @@
                     @if ((await AuthorizationService.AuthorizeAsync(User, "UserPolicy")).Succeeded)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="FilmsPage" asp-action="Index">Your Tickets</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TicketsPage" asp-action="Index">Your Tickets</a>
                         </li>
                         
                         <li class="nav-item">

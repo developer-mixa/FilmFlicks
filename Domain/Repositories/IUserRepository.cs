@@ -12,4 +12,6 @@ public interface IUserRepository : IBaseRepository<UserEntity, long>
 
     Task CreateWithRole(UserEntity entity);
 
+    Task<IEnumerable<TicketEntity>> GetUserTickets(long userId);
+
 }

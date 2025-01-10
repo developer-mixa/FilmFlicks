@@ -46,5 +46,16 @@ public class DbUserRepository(ApplicationDbContext db)
         await db.Set<UserEntity>().AddAsync(entity);
         await db.SaveChangesAsync();
     }
-    
+
+    public async Task<IEnumerable<TicketEntity>> GetUserTickets(long userId)
+    {
+        return await db.Tickets
+            .AsNoTracking()
+            .Where(t => t.UserId == userId)
+            .Include(ticketEntity => ticketEntity.FilmCinema)
+            .ThenInclude(filmCinema => filmCinema.Cinema)
+            .Include(ticketEntity => ticketEntity.FilmCinema)
+            .ThenInclude(filmCinema => filmCinema.Film)
+            .ToListAsync();
+    }
 }
