@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FilmFlicks.Domain.Entities.Core;
 
 namespace FilmFlicks.Domain.Entities;
 

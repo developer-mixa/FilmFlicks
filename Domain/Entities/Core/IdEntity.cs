@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FilmFlicks.Domain.Entities;
+namespace FilmFlicks.Domain.Entities.Core;
 
 public class IdEntity
 {

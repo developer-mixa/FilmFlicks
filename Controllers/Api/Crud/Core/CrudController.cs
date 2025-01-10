@@ -1,8 +1,8 @@
 using FilmFlicks.DAL.Repositories.Core;
-using FilmFlicks.Domain.Entities;
+using FilmFlicks.Domain.Entities.Core;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FilmFlicks.Controllers.Api.Core;
+namespace FilmFlicks.Controllers.Api.Crud.Core;
 
 public class CrudController<T>(IBaseRepository<T, long> crudRepository) : Controller
 where T: IdEntity
@@ -21,6 +21,7 @@ where T: IdEntity
         if (id != entity.Id)
             return BadRequest();
 
+        
         await crudRepository.Update(entity);
         return Ok(entity);
     }

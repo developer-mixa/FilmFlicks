@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FilmFlicks.Domain.Entities.Core;
 
 namespace FilmFlicks.Domain.Entities;
 
@@ -11,6 +12,9 @@ public class User : IdEntity
     public string Username { get; set; }
     
     [Column("password"), Required]
-    public string Password { get; set; }
+    public string PasswordHash { get; set; }
+    
+    /*[Column("role"), Required]
+    public string Role { get; set; }*/
     
 }
