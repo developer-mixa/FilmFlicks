@@ -10,13 +10,13 @@ public class CrudRepository<T, TB>(
     ) : IBaseRepository<T, TB>
 where T: class
 {
-    public async void Create(T entity)
+    public async Task Create(T entity)
     {
         await db.Set<T>().AddAsync(entity);
         await db.SaveChangesAsync();
     }
 
-    public async void Update(T entity)
+    public async Task Update(T entity)
     {
         db.Set<T>().Update(entity);
         await db.SaveChangesAsync();
@@ -33,7 +33,7 @@ where T: class
         return await db.Set<T>().ToListAsync();
     }
 
-    public async void Delete(T entity)
+    public async Task Delete(T entity)
     {
         db.Set<T>().Remove(entity);
         await db.SaveChangesAsync();

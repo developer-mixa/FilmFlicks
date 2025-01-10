@@ -4,13 +4,13 @@ namespace FilmFlicks.DAL.Repositories.Core;
 
 public interface IBaseRepository<T, B>
 {
-    void Create(T entity);
+    Task Create(T entity);
 
-    void Update(T entity);
+    Task Update(T entity);
 
     Task<T?> Get(B id);
 
     Task<List<T>> Select();
 
-    void Delete(T entity);
+    Task Delete(T entity);
 }

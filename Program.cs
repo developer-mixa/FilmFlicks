@@ -1,8 +1,12 @@
 using DotNetEnv;
 using FilmFlicks.DAL;
 using FilmFlicks.DAL.Repositories;
+using FilmFlicks.DAL.Repositories.Address;
 using FilmFlicks.DAL.Repositories.Cinema;
 using FilmFlicks.DAL.Repositories.Film;
+using FilmFlicks.DAL.Repositories.FilmCinema;
+using FilmFlicks.DAL.Repositories.Ticket;
+using FilmFlicks.DAL.Repositories.User;
 using FilmFlicks.Domain.Repositories;
 using FilmFlicks.Domain.Usecases.Cinemas;
 using FilmFlicks.Domain.UseCases.Films;
@@ -29,6 +33,14 @@ public class Program
         builder.Services.AddScoped<GetCinemasUseCase>();
         builder.Services.AddScoped<GetCinemaWithFilmsUseCase>();
 
+        builder.Services.AddScoped<ITicketRepository, DbTicketRepository>();
+
+        builder.Services.AddScoped<IAddressRepository, DbAddressRepository>();
+
+        builder.Services.AddScoped<IUserRepository, DbUserRepository>();
+
+        builder.Services.AddScoped<IFilmCinemaRepository, DbFilmCinemaRepository>();
+        
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
