@@ -1,0 +1,25 @@
+@model EditTicketViewModel
+
+<h2>Редактирование билета</h2>
+
+<form asp-action="EditTicketPost" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="FilmCinemaId" class="control-label"></label>
+        <select asp-for="FilmCinemaId" class="form-control" asp-items="@(new SelectList(Model.FilmCinemas, "Id", "Film.Name", "Cinema.Name"))">
+            <option value="">Выберите фильм и кинотеатр</option>
+        </select>
+        <span asp-validation-for="FilmCinemaId" class="text-danger"></span>
+    </div>
+
+    
+    <div class="form-group">
+        <label asp-for="FilmTime" class="control-label"></label>
+        <input asp-for="FilmTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="FilmTime" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    <a asp-action="Index" class="btn btn-secondary">Отменить</a>
+</form>

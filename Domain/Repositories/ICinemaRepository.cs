@@ -3,4 +3,7 @@ using FilmFlicks.Domain.Entities;
 
 namespace FilmFlicks.Domain.Repositories;
 
-public interface ICinemaRepository : IBaseRepository<CinemaEntity, long>;
+public interface ICinemaRepository : IBaseRepository<CinemaEntity, long>
+{
+    Task<List<CinemaEntity>> GetCinemasWithAll();
+}

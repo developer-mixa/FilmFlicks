@@ -1,0 +1,21 @@
+@model CreateTicketViewModel
+
+<h2>Добавление нового билета</h2>
+
+<form asp-action="CreateTicketPost">
+    <div class="form-group">
+        <label asp-for="FilmCinemaId" class="control-label"></label>
+        <select asp-for="FilmCinemaId" class="form-control" asp-items="@(new SelectList(Model.FilmCinemas, "Id", "Film.Name", "Cinema.Name"))">
+            <option value="">Выберите фильм и кинотеатр</option>
+        </select>
+        <span asp-validation-for="FilmCinemaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FilmTime" class="control-label"></label>
+        <input asp-for="FilmTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="FilmTime" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>

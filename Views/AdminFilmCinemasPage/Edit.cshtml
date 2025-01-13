@@ -1,0 +1,32 @@
+@model FilmFlicks.Domain.Entities.FilmCinema
+
+<h1>Редактирование связи фильма и киноцентра</h1>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    
+    <div class="form-group">
+        <label asp-for="FilmId" class="control-label"></label>
+        <select asp-for="FilmId" class="form-control" asp-items="@(ViewBag.Films)">
+            <option value="">Выберите фильм</option>
+        </select>
+        <span asp-validation-for="FilmId" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="CinemaId" class="control-label"></label>
+        <select asp-for="CinemaId" class="form-control" asp-items="@(ViewBag.Cinemas)">
+            <option value="">Выберите киноцентр</option>
+        </select>
+        <span asp-validation-for="CinemaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Назад к списку</a>
+</div>

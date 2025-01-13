@@ -7,4 +7,7 @@ public interface ITicketRepository : IBaseRepository<TicketEntity, long>
 {
     Task BookForUser(long ticketId, long userId);
     Task CancelForUser(long ticketId, long userId);
+
+    Task<List<TicketEntity>> SelectTicketsIncludeAll();
+
 }

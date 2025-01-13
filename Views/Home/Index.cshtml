@@ -1,6 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     ViewData["Title"] = "Welcome to FilmFlicks";
 }
+
+@inject IAuthorizationService AuthorizationService
+
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome to FilmFlicks</h1>
@@ -9,7 +16,10 @@
     <div class="d-flex flex-column align-items-center">
         <a asp-controller="FilmsPage" asp-action="Index" class="btn btn-primary btn-block mb-2">Films</a>
         <a asp-controller="CinemasPage" asp-action="Index" class="btn btn-secondary btn-block mb-2">Cinemas</a>
-        <a asp-controller="CinemasPage" asp-action="Index" class="btn btn-success btn-block mt-auto">Your Tickets</a>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "UserPolicy")).Succeeded)
+        {
+            <a asp-controller="TicketsPage" asp-action="Index" class="btn btn-success btn-block mt-auto">Your Tickets</a>
+        }
     </div>
 
 </div>

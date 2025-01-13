@@ -1,0 +1,35 @@
+@model FilmFlicks.Domain.Entities.CinemaEntity
+
+<h2>Создание кинотеатра</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <h3>Адрес:</h3>
+    <div class="form-group">
+        <label asp-for="AddressEntity.CityName" class="control-label"></label>
+        <input asp-for="AddressEntity.CityName" class="form-control" />
+        <span asp-validation-for="AddressEntity.CityName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressEntity.StreetName" class="control-label"></label>
+        <input asp-for="AddressEntity.StreetName" class="form-control" />
+        <span asp-validation-for="AddressEntity.StreetName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressEntity.HouseNumber" class="control-label"></label>
+        <input asp-for="AddressEntity.HouseNumber" class="form-control" />
+        <span asp-validation-for="AddressEntity.HouseNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AddressEntity.ApartmentNumber" class="control-label"></label>
+        <input asp-for="AddressEntity.ApartmentNumber" class="form-control" />
+        <span asp-validation-for="AddressEntity.ApartmentNumber" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
